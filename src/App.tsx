@@ -1,19 +1,15 @@
-
 import React from 'react';
-import {useHistory} from 'react-router-dom';
+import Routes from './Routes';
 
-
-function Main(){
-
- 
+function App() {
   return (
-    <div>
-      <p>Hi there! Welcome to your education showcase.</p>
-      <label htmlFor="name">Type your name and click "Enter" below to begin!</label>
-      <input id="name" placeholder="Your name"/>
-      <button>Button</button>
+    <div className="App">
+  
+      <Routes />
     </div>
-  )
+  );
 }
 
-export default Main;
+export default App;
+
+
