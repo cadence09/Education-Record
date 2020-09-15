@@ -1,9 +1,15 @@
 import React from "react";
 
-function Main(){
+function Main(props){
+
     return (
         <div>
-            hi
+
+    <p>Welcome to {props.location.state}'s education page.</p>
+    <button>Add New Education</button>
+    <div className="education">
+        
+    </div>
         </div>
     )
 }
