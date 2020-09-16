@@ -1,5 +1,5 @@
 import React, {useState,useReducer} from "react";
-import Modal from "react-modal"
+import Modal from "react-modal";
 
 function Main(props){
     const [education,setEducation]=useReducer(
@@ -16,6 +16,7 @@ function Main(props){
 const [educationList, setEducationList] =useState([])
    const [modal, setModal] =useState(false)
    const [schoolAPI, setSchoolAPI] =useState([])
+   const [schoolList, setSchoolList] =useState([])
 
    const handleOpenModal=()=>{
        setModal(true)
@@ -24,24 +25,22 @@ const [educationList, setEducationList] =useState([])
 
    const handleFindSchool= async()=>{
     console.log("school",education.school)
+    const school=[]
 
-    //    const response=await fetch(`http://universities.hipolabs.com/search?name=middle`)
     const response=await fetch(`http://universities.hipolabs.com/search?name=${education.school}`)
         const json =await response.json()
-        // setSchoolAPI(json) 
-        findingRightSchool(json)
+    
+        const list= json.map(data=>data.name)
+         school.push(list)
+      
+      setSchoolList(school)
+        findingRightSchool(school)
    }
 
-   function findingRightSchool(datas){
-        console.log("data1",datas)
-        datas.map(data=>{
-            console.log("1")
-            if(data.name === education.school ){
-                console.log("2")
-                setSchoolAPI(data.name)
-            }
-        })
-   }
+   function findingRightSchool(school){
+       console.log("school",school)
+        }
+   
   const handleChange=(e)=>{
         console.log("target",e.target.name)
         const name=e.target.name;
@@ -62,7 +61,7 @@ const [educationList, setEducationList] =useState([])
        })
        
    }
-   console.log("res", schoolAPI)
+
 
     return (
         <div>
@@ -75,7 +74,7 @@ const [educationList, setEducationList] =useState([])
          <input type="text" name="school" value={education.school} placeholder="Your school name" id="school" onChange={handleChange}/>
          <br/>
          <button onClick={handleFindSchool}>Find school</button>
-
+    {schoolList}
          <label htmlFor="degree">Degree</label><br/>
          <input type="text" name="degree" value={education.degree} placeholder="Your Degree" id="degree" onChange={handleChange}/>
          <br/>
