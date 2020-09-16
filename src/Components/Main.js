@@ -1,6 +1,7 @@
 import React, {useState,useReducer} from "react";
 import Modal from "react-modal";
 
+
 function Main(props){
     const [education,setEducation]=useReducer(
         (state,newState)=>({...state,...newState}),
@@ -31,14 +32,15 @@ const [educationList, setEducationList] =useState([])
         const json =await response.json()
     
         const list= json.map(data=>data.name)
-         school.push(list)
+        console.log("list",list[0])
+         school.push(...list)
       
       setSchoolList(school)
         findingRightSchool(school)
    }
 
    function findingRightSchool(school){
-       console.log("school",school)
+       console.log("school",school[0])
         }
    
   const handleChange=(e)=>{
@@ -65,16 +67,18 @@ const [educationList, setEducationList] =useState([])
 
     return (
         <div>
-
+   
     <p>Welcome to {props.location.state}'s education page.</p>
     <button onClick={handleOpenModal}> Add New Education</button>
      <Modal isOpen={modal} onAfterClose={handleAfterModalClosed}>
          <h1>New Education Modal</h1>
          <label htmlFor="school">Name of School:</label><br/>
-         <input type="text" name="school" value={education.school} placeholder="Your school name" id="school" onChange={handleChange}/>
+         <input type="text" name="school" value={education.school} placeholder="Your school name" id="school" required onChange={handleChange}/>
          <br/>
-         <button onClick={handleFindSchool}>Find school</button>
-    {schoolList}
+         <button onClick={handleFindSchool}>Find school</button><br/>
+        Result: <br/>
+        {schoolList.map((data,i)=>(<li key={i}>{data}</li>))}
+
          <label htmlFor="degree">Degree</label><br/>
          <input type="text" name="degree" value={education.degree} placeholder="Your Degree" id="degree" onChange={handleChange}/>
          <br/>
@@ -109,7 +113,7 @@ const [educationList, setEducationList] =useState([])
 
  {educationList.map(data=>(
  <div>
-     {data.study}@{data.school}<br/>
+     {data.study}@{data.school},{data.grade}<br/>
      {data.startYear} - {data.endYear}<br/>
      {data.description}<br/>
      {data.other}<br/>
