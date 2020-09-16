@@ -15,33 +15,54 @@ function Main(props){
    } )
 const [educationList, setEducationList] =useState([])
    const [modal, setModal] =useState(false)
+   const [schoolAPI, setSchoolAPI] =useState([])
 
    const handleOpenModal=()=>{
        setModal(true)
    }
+
+
+   const handleFindSchool= async()=>{
+    console.log("school",education.school)
+
+    //    const response=await fetch(`http://universities.hipolabs.com/search?name=middle`)
+    const response=await fetch(`http://universities.hipolabs.com/search?name=${education.school}`)
+        const json =await response.json()
+        // setSchoolAPI(json) 
+        findingRightSchool(json)
+   }
+
+   function findingRightSchool(datas){
+        console.log("data1",datas)
+        datas.map(data=>{
+            console.log("1")
+            if(data.name === education.school ){
+                console.log("2")
+                setSchoolAPI(data.name)
+            }
+        })
+   }
   const handleChange=(e)=>{
-console.log("target",e.target.name)
-const name=e.target.name;
-const newValue=e.target.value;
- setEducation({
-   [name]:newValue
- })
+        console.log("target",e.target.name)
+        const name=e.target.name;
+        const newValue=e.target.value;
+        setEducation({
+        [name]:newValue
+        })
 
   }
 
    const handleSubmit=(e)=>{
-    
-      setModal(false)
-       
+      setModal(false)  
    }
 
    const handleAfterModalClosed =()=>{
        setEducationList((data)=>{
            return [...data,education]
        })
-    
        
    }
+   console.log("res", schoolAPI)
 
     return (
         <div>
@@ -53,6 +74,7 @@ const newValue=e.target.value;
          <label htmlFor="school">Name of School:</label><br/>
          <input type="text" name="school" value={education.school} placeholder="Your school name" id="school" onChange={handleChange}/>
          <br/>
+         <button onClick={handleFindSchool}>Find school</button>
 
          <label htmlFor="degree">Degree</label><br/>
          <input type="text" name="degree" value={education.degree} placeholder="Your Degree" id="degree" onChange={handleChange}/>
@@ -75,12 +97,10 @@ const newValue=e.target.value;
          <br/>
 
          <label htmlFor="description">description</label><br/>
-         {/* <input type="text" name="description" value={education.description}  placeholder="What you learn at school" id="description" onChange={handleChange} /> */}
          <textarea name="description" value={education.description}  placeholder="What you learn at school" id="description" spellcheck={true} cols="50" rows="5" onChange={handleChange} />
          <br/>
 
          <label htmlFor="other">Other</label><br/>
-         {/* <input type="text" name="other" value={education.other}  placeholder="Anything" id="other" onChange={handleChange}/> */}
            <textarea type="text" name="other" value={education.other}  placeholder="Anything" id="other" spellcheck={true} cols="50" rows="5" onChange={handleChange}/> 
          <br/>
 
