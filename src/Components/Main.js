@@ -1,11 +1,19 @@
-import React, {useState,useReducer} from "react";
+import React, {useState,useReducer,useRef} from "react";
 import Modal from "react-modal";
-import { useForm} from "react-hook-form";
-import styled, { ThemeProvider }from "styled-components";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
 import Grid  from '@material-ui/core/Grid';
-
 function Main(props){
-   
+    const initEducation={
+    school:"",
+    degree:"",
+   study:"", 
+   startYear:"", 
+   endYear:"",
+   grade:"",
+   description:"",
+   other:""
+    }
     const [education,setEducation]=useReducer(
         (state,newState)=>({...state,...newState}),
   { school:"",
@@ -20,12 +28,14 @@ function Main(props){
 const [educationList, setEducationList] =useState([])
    const [modal, setModal] =useState(false)
    const [schoolList, setSchoolList] =useState([])
-   const { handleSubmit, reset, register, errors } = useForm();
+   const { handleSubmit, register, errors } = useForm();
+   const myForm = useRef(null)
    const onSubmit = (e) => {setModal(false); };
 
    const handleOpenModal=()=>{
        setModal(true)
    }
+
 
    const handleFindSchool= async()=>{
     console.log("school",education.school)
@@ -39,10 +49,13 @@ const [educationList, setEducationList] =useState([])
          school.push(...list)
       
       setSchoolList(school)
-       
+        findingRightSchool(school)
    }
 
-
+   function findingRightSchool(school){
+       console.log("school",school[0])
+        }
+   
   const handleChange=(e)=>{
         console.log("target",e.target.name)
         const name=e.target.name;
@@ -56,7 +69,7 @@ const [educationList, setEducationList] =useState([])
    const handleButton=(e)=>{
    
       setModal(false)  
-  
+      setEducation(initEducation)
    }
 
    const handleAfterModalClosed =()=>{
@@ -69,18 +82,20 @@ const [educationList, setEducationList] =useState([])
 
     return (
         <Grid item xs={12} md={12} lg={12}>
-        <Container>
+   <Container>
     <p>Welcome to {props.location.state}'s education page.</p>
     <button onClick={handleOpenModal}> Add New Education</button>
+    </Container>
      <Modal isOpen={modal} onAfterClose={handleAfterModalClosed}>
          <h1>New Education Modal</h1>
-         <form onSubmit={handleSubmit(onSubmit)}>
+         <form ref={myForm} onSubmit={handleSubmit(onSubmit)}>
          <label htmlFor="school">Name of School:</label><br/>
          <input type="text" name="school" value={education.school} placeholder="Your school name" id="school" required onChange={handleChange}/>
          <br/>
          <button onClick={handleFindSchool}>Find school</button><br/>
         Result: <br/>
-    { educationList.length ===0? "No record, please enter your search" : schoolList.map((data,i)=>(<li key={i}>{data}</li>))} <br/>
+        {schoolList.map((data,i)=>(<li key={i}>{data}</li>))}
+
          <label htmlFor="degree">Degree</label><br/>
          <input type="text" name="degree" value={education.degree} placeholder="Your Degree" id="degree" required onChange={handleChange}/>
          <br/>
@@ -110,37 +125,45 @@ const [educationList, setEducationList] =useState([])
            <textarea type="text" name="other" value={education.other}  placeholder="Anything" id="other" spellcheck={true} cols="50" rows="5" onChange={handleChange}/> 
          <br/>
 
-      
           <button type="submit">Submit</button>
          <button onClick={handleButton}>Close</button>
          </form>
      </Modal>
-
+   
+<Board>
  {educationList.map(data=>(
- <Card>
-     {data.study}@{data.school},{data.grade}<br/>
-     {data.startYear} - {data.endYear}<br/>
-     {data.description}<br/>
+ <div>
+    <Title>{data.study}@{data.school},{data.grade}</Title>
+     {data.startYear} - {data.endYear}
+     <Text>Description:</Text>
+     {data.description}
+     <Text>Other:</Text>
      {data.other}
-</Card>))}
- 
-</Container>
-        </Grid>
+</div>))}
+</Board>
+
+   </Grid>
        
     )
 }
 
 const Container = styled.div`
-text-align:center;
-padding:2em
+    text-align:center;
+    padding:2em;
+  `
 
+const Board =styled.div`
+padding:1em 5em 15em;
+margin: 0 10em;
+border: 2px solid palevioletred;
+color:#08618a;
 `
 
-const Card = styled.div`
-text-align:center;
-padding:2em;
-color:#08618a;
-bg:#f5e09a;
-
+const Title=styled.h1`
+fontSize:2em
+fontWeight:400
+`
+const Text= styled.h4`
+fontWeight:200
 `
 export default Main

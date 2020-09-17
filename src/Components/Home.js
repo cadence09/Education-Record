@@ -1,8 +1,6 @@
 import React, {useState}from "react";
 import history from '../history';
-import styled, { ThemeProvider }from "styled-components";
-import {space, width,fontSize, color} from "styled-system";
-import theme from "../theme"
+import styled from "styled-components";
 import Grid  from '@material-ui/core/Grid';
 
 function Home(){
