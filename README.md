@@ -1,4 +1,4 @@
-# GoConnect
+# Education-Record
 
 # Overview
 The purpose of this app is to help users listing out their education. The app allows users to enter schoool, degree, major, grade, school start year, expected year, work description, and anything users wish to add. 
