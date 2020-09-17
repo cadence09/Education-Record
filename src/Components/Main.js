@@ -1,6 +1,8 @@
 import React, {useState,useReducer} from "react";
 import Modal from "react-modal";
 import { useForm} from "react-hook-form";
+import styled, { ThemeProvider }from "styled-components";
+import Grid  from '@material-ui/core/Grid';
 
 function Main(props){
    
@@ -66,8 +68,8 @@ const [educationList, setEducationList] =useState([])
 
 
     return (
-        <div>
-   
+        <Grid item xs={12} md={12} lg={12}>
+        <Container>
     <p>Welcome to {props.location.state}'s education page.</p>
     <button onClick={handleOpenModal}> Add New Education</button>
      <Modal isOpen={modal} onAfterClose={handleAfterModalClosed}>
@@ -115,16 +117,30 @@ const [educationList, setEducationList] =useState([])
      </Modal>
 
  {educationList.map(data=>(
- <div>
+ <Card>
      {data.study}@{data.school},{data.grade}<br/>
      {data.startYear} - {data.endYear}<br/>
      {data.description}<br/>
      {data.other}
-</div>))}
+</Card>))}
  
-    </div> 
+</Container>
+        </Grid>
        
     )
 }
 
+const Container = styled.div`
+text-align:center;
+padding:2em
+
+`
+
+const Card = styled.div`
+text-align:center;
+padding:2em;
+color:#08618a;
+bg:#f5e09a;
+
+`
 export default Main
