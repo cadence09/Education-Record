@@ -7,23 +7,23 @@ function Main( props ){
     const initEducation={
     school:"",
     degree:"",
-   study:"", 
-   startYear:"", 
-   endYear:"",
-   grade:"",
-   description:"",
-   other:""
+    study:"", 
+    startYear:"", 
+    endYear:"",
+    grade:"",
+    description:"",
+    other:""
     }
     const [education,setEducation]=useReducer(
         ( state,newState )=>( {...state,...newState} ),
   { school:"",
     degree:"",
-   study:"", 
-   startYear:"", 
-   endYear:"",
-   grade:"",
-   description:"",
-   other:""
+    study:"", 
+    startYear:"", 
+    endYear:"",
+    grade:"",
+    description:"",
+    other:""
    } )
 const [educationList, setEducationList] =useState( [] )
    const [modal, setModal] =useState( false )
@@ -45,17 +45,14 @@ const [educationList, setEducationList] =useState( [] )
         const json =await response.json()
     
         const list= json.map( data=>data.name )
-        console.log( "list",list[0] )
+       
          school.push( ...list )
       
       setSchoolList( school )
-        findingRightSchool( school )
+
    }
 
-   function findingRightSchool( school ){
-       console.log( "school",school[0] )
-        }
-   
+  
   const handleChange=( e )=>{
         console.log( "target",e.target.name )
         const name=e.target.name;
@@ -66,7 +63,7 @@ const [educationList, setEducationList] =useState( [] )
 
   }
 
-   const handleButton=( e )=>{
+   const handleButton=()=>{
    
       setModal( false )  
       setEducation( initEducation )
@@ -132,7 +129,7 @@ const [educationList, setEducationList] =useState( [] )
    
             <Board>
                 {educationList.map( (data,i)=>(
-                    <div key={i} >
+                    <div key={ i } >
                         <Title>{data.study}@{data.school},{data.grade}</Title>
                         {data.startYear} - {data.endYear}
                         <Text>Description:</Text>

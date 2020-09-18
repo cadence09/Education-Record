@@ -7,10 +7,10 @@ import Main from './Components/Main';
 export default class Routes extends Component {
     render() {
         return (
-            <Router history={history}>
+            <Router history={ history }>
                 <Switch>
-                    <Route path="/" exact component={Home} />
-                    <Route path='/Main' component={Main} />
+                    <Route path="/" exact component={ Home } />
+                    <Route path='/Main' component={ Main } />
                 </Switch>
             </Router>
         )
